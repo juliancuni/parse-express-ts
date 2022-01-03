@@ -1,4 +1,4 @@
-FROM node:16.13.1-alpine as builder
+FROM node:latest as builder
 RUN mkdir -p /app/node_modules 
 WORKDIR /app
 
@@ -10,7 +10,7 @@ RUN npm install -g ts-node
 RUN npm install
 RUN npm run build
 
-FROM node:16.13.1-alpine
+FROM node:latest
 RUN mkdir -p /app/node_modules
 WORKDIR /app
 COPY package*.json ./
