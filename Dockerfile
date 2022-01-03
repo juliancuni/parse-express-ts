@@ -1,21 +1,22 @@
-FROM node:latest as builder
-RUN mkdir -p /app/node_modules 
+FROM node:16.13.1-alpine 
+# update packages
+RUN apk update
+
+# create root application folder
 WORKDIR /app
 
+# copy configs to /app folder
 COPY package*.json ./
-RUN npm config set unsafe-perm true
-RUN npm install -g typescript
-RUN npm install -g ts-node
+COPY tsconfig.json ./
+# copy source code to /app/src folder
+COPY src /app/src
+
+# check files list
+RUN ls -a
 
 RUN npm install
 RUN npm run build
 
-FROM node:latest
-RUN mkdir -p /app/node_modules
-WORKDIR /app
-COPY package*.json ./
-
-RUN npm install --production
-COPY --from=builder /app/dist ./dist
 EXPOSE 1337
-CMD [ "node", "dist/src/index.js" ]
+
+CMD [ "node", "./dist/src/index.js" ]
