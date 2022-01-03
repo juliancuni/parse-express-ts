@@ -23,6 +23,8 @@ const parseGraphQLServer = new ParseGraphQLServer(
     parseServer,
     {
         graphQLPath: '/graphql',
+        playgroundPath: '/playground'
+
     }
 );
 
