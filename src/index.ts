@@ -23,7 +23,7 @@ const parseGraphQLServer = new ParseGraphQLServer(
     parseServer,
     {
         graphQLPath: '/graphql',
-        playgroundPath: '/playground'
+        // playgroundPath: '/playground'
 
     }
 );
@@ -31,7 +31,7 @@ const parseGraphQLServer = new ParseGraphQLServer(
 app.use(mountPath, parseServer.app);
 
 parseGraphQLServer.applyGraphQL(app); // Mounts the GraphQL API
-parseGraphQLServer.applyPlayground(app); 
+// parseGraphQLServer.applyPlayground(app); 
 
 const PORT = process.env.SERVER_PORT || 1337;
 app.listen(PORT, () => {
