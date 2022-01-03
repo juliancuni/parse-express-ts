@@ -1,7 +1,8 @@
 import { Router, Request, Response } from 'express';
-
+import mailAdapterConfig from '../config/mail.config';
 export const router = Router();
 
 router.all("/", (req: Request, res: Response) => {
-    res.send("CUSTOM API");
+    console.log(mailAdapterConfig.options.templatePath);
+    res.send("API NE_NDERTIM");
 })
