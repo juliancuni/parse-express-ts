@@ -22,7 +22,7 @@ const parseServer = new ParseServer(config);
 const parseGraphQLServer = new ParseGraphQLServer(
     parseServer,
     {
-        graphQLPath: '/graphql',
+        graphQLPath: process.env.GRAPHQL_MOUNT || '/graphql',
         // playgroundPath: '/playground'
 
     }
