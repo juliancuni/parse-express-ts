@@ -40,6 +40,7 @@ app.use("/api", router);
 const mountPath = process.env.PARSE_MOUNT || '/v1';
 const parseServer = new ParseServer(config);
 
+const options = { allowInsecureHTTP: true };
 
 const dashboard = new ParseDashboard({
     "apps": [
@@ -50,8 +51,14 @@ const dashboard = new ParseDashboard({
             "masterKey": process.env.MASTER_KEY || "o4py9YQzop",
             "appName": process.env.APP_NAME || "MSA"
         }
-    ], "trustProxy": 1
-});
+    ],
+    users: [
+        { user: "admin" },
+        { pass: "36638833" },
+    ],
+    useEncryptedPasswords: false,
+    "trustProxy": 1
+}, options);
 
 app.use('/', dashboard);
 
