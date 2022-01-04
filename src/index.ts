@@ -5,6 +5,9 @@ import { router } from './routes';
 import config from './config/parse.config';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const { default: ParseServer, ParseGraphQLServer } = require('parse-server');
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const ParseDashboard = require('parse-dashboard');
+
 
 const app = express();
 app.use(helmet());
@@ -19,11 +22,27 @@ app.get("/", (req: Request, res: Response) => {
 const mountPath = process.env.PARSE_MOUNT || '/v1';
 const parseServer = new ParseServer(config);
 
+
+const dashboard = new ParseDashboard({
+    "apps": [
+        {
+            "serverURL": process.env.SERVER_URL || "http://localhost:1337/parse",
+            "graphQLServerURL": process.env.GQL_SERVER_URL ||  "http://localhost:1337/graphql",
+            "appId": process.env.APP_ID || "myAppId",
+            "masterKey": process.env.MASTER_KEY || "myMasterKey",
+            "appName": process.env.APP_NAME || "MyApp"
+        }
+    ]
+});
+
+app.use('/dashboard', dashboard);
+
+
 const parseGraphQLServer = new ParseGraphQLServer(
     parseServer,
     {
         graphQLPath: process.env.GRAPHQL_MOUNT || '/graphql',
-        // playgroundPath: '/playground'
+        playgroundPath: process.env.PLAYGROUND_MOUNT || '/playground'
 
     }
 );
@@ -31,7 +50,7 @@ const parseGraphQLServer = new ParseGraphQLServer(
 app.use(mountPath, parseServer.app);
 
 parseGraphQLServer.applyGraphQL(app); // Mounts the GraphQL API
-// parseGraphQLServer.applyPlayground(app); 
+parseGraphQLServer.applyPlayground(app); 
 
 const PORT = process.env.SERVER_PORT || 1337;
 app.listen(PORT, () => {

@@ -16,6 +16,7 @@
     "express": "^4.17.2",
     "helmet": "^5.0.1",
     "parse": "^3.4.1",
+    "parse-dashboard": "^3.3.0",
     "parse-server": "^4.10.4",
     "parse-smtp-template": "^2.2.0"
   },
