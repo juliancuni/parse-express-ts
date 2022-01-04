@@ -1,4 +1,4 @@
-import express, { Request, Response } from 'express';
+import express from 'express';
 import helmet from 'helmet';
 import cors from 'cors';
 import { router } from './routes';
@@ -22,7 +22,7 @@ app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
     res.setHeader('Cross-origin-Embedder-Policy', 'require-corp');
     res.setHeader('Cross-origin-Opener-Policy', 'same-origin');
-    res.setHeader("Content-Security-Policy", "script-src 'self' 'unsafe-inline' http://server.home");
+    res.setHeader("Content-Security-Policy", "script-src 'self' 'unsafe-inline' 'script-src-elem' http://server.home");
 
     if (req.method === 'OPTIONS') {
         res.sendStatus(200)
