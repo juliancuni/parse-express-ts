@@ -52,11 +52,6 @@ const dashboard = new ParseDashboard({
             "appName": process.env.APP_NAME || "MSA"
         }
     ],
-    users: [
-        { user: "admin" },
-        { pass: "36638833" },
-    ],
-    useEncryptedPasswords: false,
     "trustProxy": 1
 }, options);
 
