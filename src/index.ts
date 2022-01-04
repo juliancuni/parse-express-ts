@@ -52,6 +52,13 @@ const dashboard = new ParseDashboard({
             "appName": process.env.APP_NAME || "MSA"
         }
     ],
+    users: [
+        {
+            "user": "admin",
+            "pass": "pass",
+            // "apps": [{ "appId": "nsG24owgbc" }]
+        }
+    ],
     "trustProxy": 1
 }, options);
 
