@@ -22,6 +22,7 @@ app.get("/", (req: Request, res: Response) => {
 const mountPath = process.env.PARSE_MOUNT || '/v1';
 const parseServer = new ParseServer(config);
 
+const options = { allowInsecureHTTP: true };
 
 const dashboard = new ParseDashboard({
     "apps": [
@@ -33,7 +34,7 @@ const dashboard = new ParseDashboard({
             "appName": process.env.APP_NAME || "MyApp"
         }
     ]
-});
+}, options);
 
 app.use('/dashboard', dashboard);
 
