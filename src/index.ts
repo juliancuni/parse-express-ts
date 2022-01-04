@@ -45,7 +45,7 @@ const options = { allowInsecureHTTP: true };
 const dashboard = new ParseDashboard({
     "apps": [
         {
-            "serverURL": process.env.SERVER_URL || "http://server.home:1337/v1",
+            "serverURL": process.env.DASH_SERVER_URL || "http://server.home:1337/v1",
             "graphQLServerURL": process.env.GQL_SERVER_URL || "http://server.home:1337/v1/gql",
             "appId": process.env.APP_ID || "nsG24owgbc",
             "masterKey": process.env.MASTER_KEY || "o4py9YQzop",
