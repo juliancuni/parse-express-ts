@@ -13,6 +13,12 @@ const app = express();
 app.use(helmet());
 app.use(cors());
 
+app.use(function (req, res, next) {
+    res.header("Cross-Origin-Embedder-Policy", "require-corp");
+    res.header("Cross-Origin-Opener-Policy", "same-origin");
+    next();
+});
+
 app.use("/api", router);
 
 app.get("/", (req: Request, res: Response) => {
@@ -28,7 +34,7 @@ const dashboard = new ParseDashboard({
     "apps": [
         {
             "serverURL": process.env.SERVER_URL || "http://localhost:1337/parse",
-            "graphQLServerURL": process.env.GQL_SERVER_URL ||  "http://localhost:1337/graphql",
+            "graphQLServerURL": process.env.GQL_SERVER_URL || "http://localhost:1337/graphql",
             "appId": process.env.APP_ID || "myAppId",
             "masterKey": process.env.MASTER_KEY || "myMasterKey",
             "appName": process.env.APP_NAME || "MyApp"
@@ -51,7 +57,7 @@ const parseGraphQLServer = new ParseGraphQLServer(
 app.use(mountPath, parseServer.app);
 
 parseGraphQLServer.applyGraphQL(app); // Mounts the GraphQL API
-parseGraphQLServer.applyPlayground(app); 
+parseGraphQLServer.applyPlayground(app);
 
 const PORT = process.env.SERVER_PORT || 1337;
 app.listen(PORT, () => {
