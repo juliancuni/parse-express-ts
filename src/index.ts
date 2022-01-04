@@ -62,7 +62,7 @@ const dashboard = new ParseDashboard({
     "trustProxy": 1
 }, options);
 
-app.use('/', dashboard);
+app.use('/dashboard', dashboard);
 
 
 const parseGraphQLServer = new ParseGraphQLServer(
