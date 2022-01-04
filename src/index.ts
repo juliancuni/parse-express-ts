@@ -11,38 +11,49 @@ const ParseDashboard = require('parse-dashboard');
 
 const app = express();
 app.use(helmet());
+
+
+
 app.use(cors());
 
-app.use(function (req, res, next) {
-    res.header("Cross-Origin-Embedder-Policy", "require-corp");
-    res.header("Cross-Origin-Opener-Policy", "same-origin");
-    next();
+app.use((req, res, next) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
+    res.setHeader('Cross-origin-Embedder-Policy', 'require-corp');
+    res.setHeader('Cross-origin-Opener-Policy', 'same-origin');
+    res.setHeader("Content-Security-Policy", "script-src 'self' 'unsafe-inline' http://server.home");
+
+    if (req.method === 'OPTIONS') {
+        res.sendStatus(200)
+    } else {
+        next()
+    }
 });
 
 app.use("/api", router);
 
-app.get("/", (req: Request, res: Response) => {
-    res.send("MAIN BACKEND SERVER --- MSA");
-});
+// app.get("/", (req: Request, res: Response) => {
+//     res.send("MAIN BACKEND SERVER --- MSA");
+// });
 
 const mountPath = process.env.PARSE_MOUNT || '/v1';
 const parseServer = new ParseServer(config);
 
-const options = { allowInsecureHTTP: true };
 
 const dashboard = new ParseDashboard({
     "apps": [
         {
-            "serverURL": process.env.SERVER_URL || "http://localhost:1337/parse",
-            "graphQLServerURL": process.env.GQL_SERVER_URL || "http://localhost:1337/graphql",
-            "appId": process.env.APP_ID || "myAppId",
-            "masterKey": process.env.MASTER_KEY || "myMasterKey",
-            "appName": process.env.APP_NAME || "MyApp"
+            "serverURL": process.env.SERVER_URL || "http://server.home:1337/v1",
+            "graphQLServerURL": process.env.GQL_SERVER_URL || "http://server.home:1337/v1/gql",
+            "appId": process.env.APP_ID || "nsG24owgbc",
+            "masterKey": process.env.MASTER_KEY || "o4py9YQzop",
+            "appName": process.env.APP_NAME || "MSA"
         }
-    ]
-}, options);
+    ], "trustProxy": 1
+});
 
-app.use('/dashboard', dashboard);
+app.use('/', dashboard);
 
 
 const parseGraphQLServer = new ParseGraphQLServer(
