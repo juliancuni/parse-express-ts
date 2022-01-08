@@ -3,6 +3,7 @@ import helmet from 'helmet';
 import cors from 'cors';
 import { router } from './routes';
 import config from './config/parse.config';
+import path from 'path';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const { default: ParseServer, ParseGraphQLServer } = require('parse-server');
 
@@ -11,6 +12,11 @@ app.use(helmet());
 app.use(cors());
 
 app.use("/api", router);
+app.use(express.static(path.resolve("./public")));
+
+app.get("/choosepassword", (req: Request, res: Response) => {
+    res.sendFile(path.resolve("./templates/choosePassword.html"));
+});
 
 app.get("/", (req: Request, res: Response) => {
     res.send("MAIN BACKEND SERVER --- MSA");
