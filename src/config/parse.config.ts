@@ -12,39 +12,36 @@ const config = {
     allowClientClassCreation: process.env.CLIENT_CLASS_CREATION || false,
     verifyUserEmails: process.env.VERIFY_USERS_EMAILS || true,
     liveQuery: {
-        classNames: ['Posts', 'Comments'], // List of classes to support for query subscriptions
+        classNames: process.env.LIVE_QUERY_CLASSES || ['Posts', 'Comments'],
     },
-  
+
     emailAdapter: mailAdapterConfig,
     accountLockout: {
-      duration: 3,
-      threshold: 5,
-      unlockOnPasswordReset: true,
+        duration: process.env.ACC_LOCK_DURATION || 3,
+        threshold: process.env.MAX_FAILED_PASS_ATTEMPT || 5,
+        unlockOnPasswordReset: true,
     },
     passwordPolicy: {
-      validatorPattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-6])(?=.{8,})/,
-      doNotAllowUsername: true,
-      maxPasswordHistory: 20,
+        validatorPattern: process.env.PASS_PATTERN || /^(?=.*[a-z])(?=.*[0-9])(?=.{6,})/,
+        doNotAllowUsername: true,
+        maxPasswordHistory: process.env.PASS_MAX_HISTORY || 5,
     },
-    // liveQuery: {
-    //   classNames: ['Posts', 'Comments'], // List of classes to support for query subscriptions
-    // },
     clientKey: process.env.CLIENT_KEY || "",
     dotNetKey: process.env.DOTNET_KEY || "",
     restAPIKey: process.env.RESTAPI_KEY || "",
-    javascriptKey: process.env.JS_KEY || "",
-  
+    javascriptKey: process.env.JS_KEY || "jskey",
+
     customPages: {
-      passwordResetSuccess: process.env.PASS_RESET_SUCCESS_LINK || "http://localhost:3000/auth/resetpassword",
-      verifyEmailSuccess: process.env.EMAIL_VERIFIED_LINK || "http://localhost:3000/auth/emailverified",
-      // parseFrameURL: process.env.PARSE_FRAME_LINK "http://localhost:3000/auth/parseFrameURL",
-      linkSendSuccess: process.env.SEND_LINK_SUCCESS || "http://localhost:3000/auth/linkSendSuccess",
-      // linkSendFail: process.env.SEND_LINK_FAIL || "http://localhost:3000/auth/linkSendFail",
-      invalidLink: process.env.INVALID_LINK || "http://localhost:3000/auth/invalidlink",
-      invalidVerificationLink: process.env.INVALID_VERIFICATION_LINK || "http://localhost:3000/auth/invalidVerificationLink",
-      // choosePassword: process.env.PASS_RESET_LINK || "http://localhost:3000/auth/passwordrecovery"
+        passwordResetSuccess: process.env.PASS_RESET_SUCCESS_LINK || "http://localhost:3000/auth/resetpassword",
+        verifyEmailSuccess: process.env.EMAIL_VERIFIED_LINK || "http://localhost:3000/auth/emailverified",
+        // parseFrameURL: process.env.PARSE_FRAME_LINK "http://localhost:3000/auth/parseFrameURL",
+        linkSendSuccess: process.env.SEND_LINK_SUCCESS || "http://localhost:3000/auth/linkSendSuccess",
+        linkSendFail: process.env.SEND_LINK_FAIL || "http://localhost:3000/auth/linkSendFail",
+        invalidLink: process.env.INVALID_LINK || "http://localhost:3000/auth/invalidLink",
+        invalidVerificationLink: process.env.INVALID_VERIFICATION_LINK || "http://localhost:3000/auth/invalidVerificationLink",
+        // choosePassword: process.env.PASS_RESET_LINK || "http://localhost:3000/auth/choosePassword"
     },
     allowHeaders: ['X-Parse-Installation-Id', 'X-Parse-Client-Key']
-  };
+};
 
 export default config;
