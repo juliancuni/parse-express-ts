@@ -32,7 +32,7 @@ const config = {
     clientKey: process.env.CLIENT_KEY || "",
     dotNetKey: process.env.DOTNET_KEY || "",
     restAPIKey: process.env.RESTAPI_KEY || "",
-    javascriptKey: process.env.JS_KEY || "",
+    javascriptKey: process.env.JS_KEY || "jskey",
   
     customPages: {
       passwordResetSuccess: process.env.PASS_RESET_SUCCESS_LINK || "http://localhost:3000/auth/resetpassword",
