@@ -24,7 +24,7 @@ const config = {
   passwordPolicy: {
     validatorPattern: process.env.PASS_PATTERN || /^(?=.*[a-z])(?=.*[0-9])(?=.{6,})/,
     doNotAllowUsername: true,
-    maxPasswordHistory: process.env.PASS_PATTERN || 5,
+    maxPasswordHistory: process.env.PASS_MAX_HISTORY || 5,
   },
   clientKey: process.env.CLIENT_KEY || "",
   dotNetKey: process.env.DOTNET_KEY || "",
