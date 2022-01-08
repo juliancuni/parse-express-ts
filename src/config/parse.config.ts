@@ -24,7 +24,7 @@ const config = {
     passwordPolicy: {
       validatorPattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-6])(?=.{8,})/,
       doNotAllowUsername: true,
-      maxPasswordHistory: 25,
+      maxPasswordHistory: 20,
     },
     // liveQuery: {
     //   classNames: ['Posts', 'Comments'], // List of classes to support for query subscriptions
