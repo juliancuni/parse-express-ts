@@ -35,7 +35,7 @@ const config = {
     javascriptKey: process.env.JS_KEY || "",
   
     customPages: {
-      // passwordResetSuccess: process.env.PASS_RESET_SUCCESS_LINK || "http://localhost:3000/auth/resetpassword",
+      passwordResetSuccess: process.env.PASS_RESET_SUCCESS_LINK || "http://localhost:3000/auth/resetpassword",
       verifyEmailSuccess: process.env.EMAIL_VERIFIED_LINK || "http://localhost:3000/auth/emailverified",
       // parseFrameURL: process.env.PARSE_FRAME_LINK "http://localhost:3000/auth/parseFrameURL",
       linkSendSuccess: process.env.SEND_LINK_SUCCESS || "http://localhost:3000/auth/linkSendSuccess",
