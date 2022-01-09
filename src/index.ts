@@ -11,12 +11,18 @@ const app = express();
 app.use(helmet());
 app.use(cors());
 
-app.use("/api", router);
-app.use(express.static(path.resolve("./public")));
-
-app.get("/choosepassword", (req: Request, res: Response) => {
-    res.sendFile(path.resolve("./templates/choosePassword.html"));
+app.use((req, res, next) => {
+    res.setHeader('X-Powered-By', 'Microservices Albania');
+    next();
 });
+
+
+app.use("/api", router);
+// app.use(express.static(path.resolve("./public")));
+
+// app.get("/choosepassword", (req: Request, res: Response) => {
+//     res.sendFile(path.resolve("./templates/choosePassword.html"));
+// });
 
 app.get("/", (req: Request, res: Response) => {
     res.send("MAIN BACKEND SERVER --- MSA");
