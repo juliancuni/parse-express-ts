@@ -7,19 +7,15 @@ import config from './config/parse.config';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const { default: ParseServer, ParseGraphQLServer } = require('parse-server');
 
-
 const app = express();
-app.use(helmet());
-
-
-
-app.use(cors());
 
 app.use((req, res, next) => {
     res.setHeader("Cross-Origin-Resource-Policy", process.env.FRONT_END || "https://frontend-dev.apps.microservices.al");
-    res.setHeader('X-Powered-By', 'Microservices Albania');
+    res.setHeader('x-powered-by', 'Microservices Albania');
     next();
 });
+app.use(cors());
+app.use(helmet());
 
 
 app.use("/api", router);
