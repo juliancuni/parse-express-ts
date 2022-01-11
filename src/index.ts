@@ -3,7 +3,7 @@ import helmet from 'helmet';
 import cors from 'cors';
 import { router } from './routes';
 import config from './config/parse.config';
-import path from 'path';
+// import path from 'path';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const { default: ParseServer, ParseGraphQLServer } = require('parse-server');
 
