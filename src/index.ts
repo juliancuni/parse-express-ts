@@ -23,7 +23,7 @@ app.use((req, res, next) => {
     res.setHeader('Cross-origin-Embedder-Policy', 'require-corp');
     res.setHeader('Cross-origin-Opener-Policy', 'same-origin');
     res.setHeader("Content-Security-Policy", "script-src 'self' 'unsafe-inline' 'script-src-elem' http://server.home");
-
+    res.setHeader("Cross-Origin-Resource-Policy", "cross-origin");
     if (req.method === 'OPTIONS') {
         res.sendStatus(200)
     } else {
