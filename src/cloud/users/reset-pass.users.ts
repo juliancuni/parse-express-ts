@@ -12,8 +12,13 @@ Parse.Cloud.define("requestPassRecovery", async (request) => {
     try {
         const user = await userQuery.first({ useMasterKey: true });
         try {
-            await sendEmailWithToken(user!);
-            return true;
+            if (user) {
+                await sendEmailWithToken(user!);
+                return true;
+            } else {
+                throw new Parse.Error(1001, "Ky email nuk egziston");
+            }
+
         } catch (error: any) {
             throw new Parse.Error(error.code, error.message);
         }
