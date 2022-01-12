@@ -12,12 +12,12 @@ Parse.Cloud.define("requestPassRecovery", async (request) => {
     try {
         const user = await userQuery.first({ useMasterKey: true });
         try {
-            await sendEmailWithToken(user);
+            await sendEmailWithToken(user!);
             return true;
-        } catch (error) {
+        } catch (error: any) {
             throw new Parse.Error(error.code, error.message);
         }
-    } catch (error) {
+    } catch (error: any) {
         throw new Parse.Error(error.code, error.message);
     }
 });
@@ -30,19 +30,19 @@ Parse.Cloud.define("resetPassword", async (request) => {
     tokenQuery.equalTo('token', tokenParam);
     try {
         const token = await tokenQuery.first({ useMasterKey: true })
-        const user = token.get("user");
-        if (token.get("expires") > Date.now()) {
+        const user = token!.get("user");
+        if (token!.get("expires") > Date.now()) {
             user.setPassword(password);
             try {
                 await user.save(null, { useMasterKey: true });
                 return true;
-            } catch (error) {
+            } catch (error: any) {
                 throw new Parse.Error(error.code, error.message);
             }
         } else {
             throw new Parse.Error(1002, "Token ka skaduar.");
         }
-    } catch (error) {
+    } catch (error: any) {
         throw new Parse.Error(error.code, error.message);
     }
 });
@@ -67,15 +67,15 @@ const sendEmailWithToken = async (user: Parse.Object<Parse.Attributes>) => {
             const template = makeHmtl(user, subjekt, "./mail/templates/mail.html", generatedToken);
             const message = messageMaker(user.attributes.email, subjekt, template);
             try {
-                await sendMail(message)
+                await sendMail(message!)
                 return true;
-            } catch (error) {
+            } catch (error: any) {
                 throw new Parse.Error(error.code, error.message);
             }
-        } catch (error) {
+        } catch (error: any) {
             throw new Parse.Error(error.code, error.message);
         }
-    } catch (error) {
+    } catch (error: any) {
         throw new Parse.Error(error.code, error.message);
     }
 }
