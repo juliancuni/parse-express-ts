@@ -7,7 +7,6 @@ COPY package*.json ./
 COPY tsconfig.json ./
 
 COPY src /app/src
-COPY cloud /app/cloud
 COPY mail /app/mail
 
 RUN ls -a
