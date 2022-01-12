@@ -2,11 +2,11 @@
 const mailAdapterConfig = {
     module: 'parse-smtp-template',
     options: {
-        host: process.env.MAIL_HOST || "smtp.mail.com",
+        host: process.env.MAIL_HOST || "mail.microservices.al",
         port: process.env.MAIL_PORT || 587,
-        user: process.env.MAIL_USER || "name@domain.com",
-        password: process.env.MAIL_PASS || "SecurePassword",
-        fromAddress: process.env.MAIL_FROM_ADDRESS || 'app@domain.com',
+        user: process.env.MAIL_USER || "info@microservices.al",
+        password: process.env.MAIL_PASS || "enlsOos21@",
+        fromAddress: process.env.MAIL_FROM_ADDRESS || "info@microservices.al",
         template: true,
         templatePath: "./mail/templates/mail.html",
         passwordOptions: {
