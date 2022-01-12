@@ -9,12 +9,17 @@ Parse.Cloud.define("requestPassRecovery", async (request) => {
     const email = request.params.email;
     const userQuery = new Parse.Query("User");
     userQuery.equalTo("email", email);
-    const user = await userQuery.first({ useMasterKey: true });
-    if (user) {
-        await sendEmailWithToken(user);
-        return true;
+    try {
+        const user = await userQuery.first({ useMasterKey: true });
+        try {
+            await sendEmailWithToken(user);
+            return true;
+        } catch (error) {
+            throw new Parse.Error(error.code, error.message);
+        }
+    } catch (error) {
+        throw new Parse.Error(error.code, error.message);
     }
-    throw new Parse.Error(1001, 'Ky email nuk egziston');
 });
 
 
@@ -23,18 +28,22 @@ Parse.Cloud.define("resetPassword", async (request) => {
     const password = request.params.password;
     const tokenQuery = new Parse.Query("Token");
     tokenQuery.equalTo('token', tokenParam);
-    const token = await tokenQuery.first({ useMasterKey: true })
-    const user = token.get("user");
-    if (token.get("expires") > Date.now()) {
-        user.setPassword(password);
-        try {
-            await user.save(null, { useMasterKey: true });
-            return true;
-        } catch (error) {
-            throw new Parse.Error(error.code, error.message);
+    try {
+        const token = await tokenQuery.first({ useMasterKey: true })
+        const user = token.get("user");
+        if (token.get("expires") > Date.now()) {
+            user.setPassword(password);
+            try {
+                await user.save(null, { useMasterKey: true });
+                return true;
+            } catch (error) {
+                throw new Parse.Error(error.code, error.message);
+            }
+        } else {
+            throw new Parse.Error(1002, "Token ka skaduar.");
         }
-    } else {
-        throw new Parse.Error(1002, "Token ka skaduar.");
+    } catch (error) {
+        throw new Parse.Error(error.code, error.message);
     }
 });
 
@@ -51,15 +60,24 @@ const sendEmailWithToken = async (user: Parse.Object<Parse.Attributes>) => {
     acl.setPublicReadAccess(false);
     acl.setPublicWriteAccess(false);
     newToken.setACL(acl);
-    const savedToken = await newToken.save(null, { useMasterKey: true });
-    const subjekt = "Rekuperim Fjalëkalimi";
-    const template = makeHmtl(user, subjekt, "./mail/templates/mail.html", generatedToken);
-    const message = messageMaker(user.attributes.email, subjekt, template);
-    if (message) {
-        const sendEmail = await sendMail(message)
-        return sendEmail;
+    try {
+        await newToken.save(null, { useMasterKey: true });
+        try {
+            const subjekt = "Rekuperim Fjalëkalimi";
+            const template = makeHmtl(user, subjekt, "./mail/templates/mail.html", generatedToken);
+            const message = messageMaker(user.attributes.email, subjekt, template);
+            try {
+                await sendMail(message)
+                return true;
+            } catch (error) {
+                throw new Parse.Error(error.code, error.message);
+            }
+        } catch (error) {
+            throw new Parse.Error(error.code, error.message);
+        }
+    } catch (error) {
+        throw new Parse.Error(error.code, error.message);
     }
-    return null;
 }
 
 const makeHmtl = (user: Parse.Object<Parse.Attributes>, subject: string, filePath: string, token: string) => {
