@@ -2,8 +2,8 @@ import mailAdapterConfig from "./mail.config";
 
 
 const config = {
-    databaseURI: process.env.DATABASE_URI || 'mongodb://root:MaTraPaPuPa@server.home:27017/parse?authSource=admin',
-    cloud: process.env.CLOUD_CODE_MAIN || './cloud/main.js',
+    databaseURI: process.env.DATABASE_URI || 'mongodb://mongodb:27017/test',
+    cloud: process.env.CLOUD_CODE_MAIN || './dist/src/cloud/main.js',
     appId: process.env.APP_ID || 'myAppId',
     appName: process.env.APP_NAME || "MSA",
     masterKey: process.env.MASTER_KEY || 'masterKey',
@@ -39,7 +39,7 @@ const config = {
         linkSendFail: process.env.SEND_LINK_FAIL || "http://localhost:3000/auth/linkSendFail",
         invalidLink: process.env.INVALID_LINK || "http://localhost:3000/auth/invalidLink",
         invalidVerificationLink: process.env.INVALID_VERIFICATION_LINK || "http://localhost:3000/auth/invalidVerificationLink",
-        // choosePassword: process.env.PASS_RESET_LINK || "http://localhost:3000/auth/choosePassword"
+        choosePassword: process.env.PASS_RESET_LINK || "http://localhost:3000/auth/choosePassword"
     },
     allowHeaders: ['X-Parse-Installation-Id', 'X-Parse-Client-Key']
 };
